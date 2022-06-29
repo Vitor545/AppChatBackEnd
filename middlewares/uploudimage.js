@@ -9,13 +9,19 @@ module.exports = (multer({
             cb(null, Date.now().toString() + "_" + file.originalname)  
         }
     }),
+    limits: {
+        fileSize: 2 * 1024 * 1024
+    },
     fileFilter: (_req, file, cb) => {
-        const typeTrue = ['image/png', 'image/jpg', 'image/jpeg'].find(formatoAceito => formatoAceito == file.mimetype);
+        const typeTrue = ['image/png', 'image/jpg', 'image/jpeg'];
 
-        if(typeTrue){
+        if(typeTrue.includes(file.mimetype)){
             return cb(null, true);
         }
 
         return cb(null, false);
-    }
+    },
+    onError : function(err, next) {
+        next(err);
+      }
 }));
