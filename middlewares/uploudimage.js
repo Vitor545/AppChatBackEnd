@@ -5,8 +5,10 @@ module.exports = (multer({
         destination: (_req, _file, cb) => {
             cb(null, './uploads')
         },
-        filename: (_req, file, cb) => {
-            cb(null, Date.now().toString() + "_" + file.originalname)  
+        filename: (req, file, cb) => {
+            const name = Date.now().toString() + "_" + file.originalname;
+            req.body.image = name;
+            cb(null, name)  
         }
     }),
     limits: {
